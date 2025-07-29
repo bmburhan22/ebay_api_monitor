@@ -78,11 +78,16 @@ EXCLUDED_SELLERS = ["seller1", "seller2"]
 
 # Telegram settings
 CHAT_IDS = [1160971557]
+TELEGRAM_API_KEY = "your_telegram_bot_token"  # Or set via environment variable
 
 # API settings
 MAX_TOTAL_RESULTS = 200
 MAX_RESULTS_PER_BATCH = 50
-DELAY = 10
+
+# Timing settings
+DELAY = 10              # Delay between complete search cycles (seconds)
+SEARCH_DELAY = 5        # Delay between individual searches (seconds)
+API_RATE_LIMIT_DELAY = 1  # Delay between API calls (seconds)
 ```
 
 ### 6. Test the Implementation
@@ -109,12 +114,17 @@ python monitor.py
 
 - `MAX_TOTAL_RESULTS`: Maximum items to process before giving up
 - `MAX_RESULTS_PER_BATCH`: Results per API call (max 200)
-- `DELAY`: Delay between searches in seconds
+
+### Timing Configuration
+
+- `DELAY`: Delay between complete search cycles (seconds)
+- `SEARCH_DELAY`: Delay between individual searches (seconds)
+- `API_RATE_LIMIT_DELAY`: Delay between API calls to avoid rate limiting (seconds)
 
 ### Telegram Configuration
 
 - `CHAT_IDS`: List of Telegram chat IDs to send messages to
-- `TELEGRAM_API_KEY`: Environment variable for bot token
+- `TELEGRAM_API_KEY`: Bot token (can be set in config or via environment variable)
 
 ## How It Works
 

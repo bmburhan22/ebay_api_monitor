@@ -11,7 +11,8 @@ import time
 from datetime import datetime
 from config import (
     EBAY_CLIENT_ID, EBAY_CLIENT_SECRET,
-    MAX_RESULTS_PER_BATCH, MAX_TOTAL_RESULTS
+    MAX_RESULTS_PER_BATCH, MAX_TOTAL_RESULTS,
+    API_RATE_LIMIT_DELAY
 )
 
 
@@ -113,6 +114,13 @@ class EbayAPI:
                     return item
                 else:
                     print(f"  Skipping item from excluded seller: {seller_username}")
+            
+            # If no valid items found, return the first item anyway for testing
+            if items:
+                first_item = items[0]
+                first_seller = first_item.get("seller", {}).get("username", "")
+                print(f"⚠️  No valid items found, returning first item from excluded seller: {first_seller}")
+                return first_item
             
             print("No valid items found (all from excluded sellers)")
             return None

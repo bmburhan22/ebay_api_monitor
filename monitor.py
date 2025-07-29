@@ -8,7 +8,7 @@ import time
 import sys
 from ebay_api import EbayAPI, parse_ebay_item
 from message_handler import MessageHandler
-from config import KEYWORDS, EXCLUDED_SELLERS, CATEGORY_ID, MAX_TOTAL_RESULTS, DELAY
+from config import KEYWORDS, EXCLUDED_SELLERS, CATEGORY_ID, MAX_TOTAL_RESULTS, DELAY, SEARCH_DELAY, API_RATE_LIMIT_DELAY
 
 
 def main():
@@ -25,7 +25,9 @@ def main():
     print(f"Category ID: {CATEGORY_ID}")
     print(f"Excluded sellers: {EXCLUDED_SELLERS}")
     print(f"Max total results: {MAX_TOTAL_RESULTS}")
-    print(f"Delay between searches: {DELAY} seconds")
+    print(f"Cycle delay: {DELAY} seconds")
+    print(f"Search delay: {SEARCH_DELAY} seconds")
+    print(f"API rate limit delay: {API_RATE_LIMIT_DELAY} seconds")
     print("=" * 50)
     
     # Test API connection
@@ -38,15 +40,19 @@ def main():
         print("Please check your eBay API credentials in config.py")
         sys.exit(1)
     
-    # Check Telegram configuration
-    import os
-    if not os.environ.get("TELEGRAM_API_KEY"):
-        print("⚠️  Warning: TELEGRAM_API_KEY environment variable not set")
-        print("Telegram notifications will be disabled")
-    
     print("\nStarting monitoring loop...")
     print("Press Ctrl+C to stop")
     print("-" * 50)
+    
+    # Send test message to confirm Telegram is working
+    if message_handler.telegram_enabled:
+        test_message = "🤖 eBay Monitor Started!\n\nSearching for: " + ", ".join(KEYWORDS) + "\nCategory: " + CATEGORY_ID + "\nExcluded sellers: " + ", ".join(EXCLUDED_SELLERS)
+        print("📤 Sending test message to Telegram...")
+        if message_handler.send_telegram_message(test_message):
+            print("✓ Test message sent successfully!")
+        else:
+            print("✗ Failed to send test message")
+        print("-" * 50)
     
     try:
         while True:
@@ -97,11 +103,12 @@ def main():
                 
                 # Delay between searches
                 if keyword != KEYWORDS[-1]:  # Don't delay after the last keyword
-                    print(f"Waiting {DELAY} seconds before next search...")
-                    time.sleep(DELAY)
+                    print(f"Waiting {SEARCH_DELAY} seconds before next search...")
+                    time.sleep(SEARCH_DELAY)
             
-            # Delay between complete cycles
+            # Complete cycle delay
             print(f"\nCompleted search cycle. Waiting {DELAY} seconds before next cycle...")
+            print("-" * 50)
             time.sleep(DELAY)
             
     except KeyboardInterrupt:
