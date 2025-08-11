@@ -41,10 +41,11 @@ class EbayAPI:
         }
         
         # Set scope based on environment - try simpler format
-        scope = "https://api.ebay.com/oauth/api_scope/buy.browse"
+        scope = "https://api.ebay.com/oauth/api_scope"
         
         data = {
-            "grant_type": "client_credentials"
+            "grant_type": "client_credentials",
+            "scope": scope
         }
         
         try:
@@ -81,7 +82,6 @@ class EbayAPI:
         search_params = {
             "q": keywords,
             "category_ids": category_id,
-            "filter": "buyingOptions:{AUCTION|FIXED_PRICE|AUCTION_WITH_BIN}",
             "sort": "newlyListed",
             "limit": MAX_RESULTS_PER_BATCH,
             "offset": 0
@@ -137,7 +137,8 @@ def parse_ebay_item(item_data):
     """Parse item data from eBay Browse API response"""
     
     # Extract basic info
-    item_id = item_data.get("itemId", "")
+    parts = str(item_data.get("itemId", "")).split("|")
+    item_id = parts[1] if len(parts) > 1 else ""
     title = item_data.get("title", "")
     
     # Extract prices
