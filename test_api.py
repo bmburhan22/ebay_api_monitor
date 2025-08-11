@@ -4,7 +4,6 @@ Test script for eBay Browse API implementation
 """
 
 import sys
-import os
 from ebay_api import EbayAPI, parse_ebay_item
 from message_handler import MessageHandler
 from config import KEYWORDS, EXCLUDED_SELLERS, CATEGORY_ID, MAX_TOTAL_RESULTS
@@ -68,14 +67,11 @@ def test_ebay_api():
                 
                 # Test Telegram sending (if configured)
                 print("\n5. Testing Telegram Integration...")
-                if os.environ.get("TELEGRAM_API_KEY"):
-                    success = message_handler.send_telegram_message("🧪 Test message from eBay API Monitor")
-                    if success:
-                        print("✓ Telegram message sent successfully")
-                    else:
-                        print("✗ Failed to send Telegram message")
+                success = message_handler.send_telegram_message("🧪 Test message from eBay API Monitor")
+                if success:
+                    print("✓ Telegram message sent successfully")
                 else:
-                    print("⚠️  TELEGRAM_API_KEY not set, skipping Telegram test")
+                    print("✗ Failed to send Telegram message")
                 
                 return True
                 

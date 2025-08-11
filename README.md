@@ -38,16 +38,13 @@ pip install -r requirements.txt
 
 ### 2. Setup Configuration
 
-1. **Copy the sample configuration file:**
-   ```bash
-   cp config.sample.py config.py
-   ```
-
-2. **Edit `config.py` with your actual credentials:**
-   ```python
-   EBAY_CLIENT_ID = "your_actual_client_id"
-   EBAY_CLIENT_SECRET = "your_actual_client_secret"
-   ```
+**Edit `config.py` with your actual credentials:**
+```python
+EBAY_CLIENT_ID = "your_actual_client_id"
+EBAY_CLIENT_SECRET = "your_actual_client_secret"
+TELEGRAM_API_KEY = "your_telegram_bot_token"
+CHAT_IDS = [your_chat_id]
+```
 
 ### 3. Configure eBay API Credentials
 
@@ -60,11 +57,11 @@ pip install -r requirements.txt
 
 1. Create a bot via [@BotFather](https://t.me/botfather)
 2. Get your bot token and chat ID
-3. Set environment variable:
-
-```bash
-export TELEGRAM_API_KEY="your_telegram_bot_token"
-```
+3. Update the values in `config.py`:
+   ```python
+   TELEGRAM_API_KEY = "your_telegram_bot_token"
+   CHAT_IDS = [your_chat_id]
+   ```
 
 ### 5. Customize Configuration
 
@@ -77,8 +74,8 @@ CATEGORY_ID = "177831"
 EXCLUDED_SELLERS = ["seller1", "seller2"]
 
 # Telegram settings
-CHAT_IDS = [1160971557]
-TELEGRAM_API_KEY = "your_telegram_bot_token"  # Or set via environment variable
+CHAT_IDS = [your_chat_id]
+TELEGRAM_API_KEY = "your_telegram_bot_token"
 
 # API settings
 MAX_TOTAL_RESULTS = 200
@@ -216,7 +213,7 @@ python test_api.py
    - Check if all sellers are excluded
 
 3. **Telegram Not Working**
-   - Verify `TELEGRAM_API_KEY` environment variable is set
+   - Verify `TELEGRAM_API_KEY` in `config.py` is correct
    - Check bot token is correct
    - Verify chat IDs are valid
 
