@@ -13,6 +13,12 @@ A modern eBay listing monitor that uses the official eBay Browse API to search f
 - ✅ **Error Handling**: Comprehensive error handling and logging
 - ✅ **Modular Design**: Clean, maintainable code structure
 
+## Screenshot
+
+![eBay Listing Monitor in Action](alert.png)
+
+*The application shows a search for "Brompton, Brompton" in category 177831, excluding sellers "nomorecorona" and "acousticv8". It successfully found a Brompton Folding Bike listing with a Buy It Now price of $1,222.00 USD.*
+
 ## Project Structure
 
 ```
